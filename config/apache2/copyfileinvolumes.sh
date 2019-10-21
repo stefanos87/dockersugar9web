@@ -7,6 +7,7 @@ echo "avvio"
 FILE=/var/www/html/config.php
 if [ -f "$FILE" ]; then
     echo "$FILE exist"
+    apachectl -D FOREGROUND
 else 
    echo "copia"
    cd /sugarsource
