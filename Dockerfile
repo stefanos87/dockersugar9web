@@ -1,5 +1,6 @@
 FROM php:7.1-apache
 
+
 RUN apt-get update \
     && apt-get install -y \
     graphviz \
@@ -73,8 +74,10 @@ RUN docker-php-ext-install mysqli \
 COPY config/php/mods-available/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 COPY config/php/opcache-blacklist /usr/local/etc/php/opcache-blacklist
 
+ARG REPO_SUGAR 
 
-RUN git clone https://github.com/stefanos87/sugar9 /sugarsource
+
+RUN git clone ${REPO_SUGAR} /sugarsource
 RUN mkdir /sugarsource/sessioni
 RUN chmod -R 777 /var
 RUN chown -R sugar:sugar /sugarsource
