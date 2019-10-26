@@ -74,16 +74,16 @@ RUN docker-php-ext-install mysqli \
 COPY config/php/mods-available/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 COPY config/php/opcache-blacklist /usr/local/etc/php/opcache-blacklist
 
-ARG REPO_SUGAR 
+ENV REPO_SUGAR https://github.com/stefanos87/empty
+ 
+
+# RUN git clone ${REPO_SUGAR} /sugarsource
+# RUN mkdir /sugarsource/sessioni
+# RUN chmod -R 777 /var
+# RUN chown -R sugar:sugar /sugarsource
 
 
-RUN git clone ${REPO_SUGAR} /sugarsource
-RUN mkdir /sugarsource/sessioni
-RUN chmod -R 777 /var
-RUN chown -R sugar:sugar /sugarsource
-
-
-COPY config/apache2/info.php /sugarsource
+# COPY config/apache2/info.php /sugarsource
 COPY config/apache2/copyfileinvolumes.sh /usr/local/bin/copyfileinvolumes.sh
 RUN chmod +x /usr/local/bin/copyfileinvolumes.sh
 # RUN chmod +x /usr/local/bin/sugarfixpermissions
