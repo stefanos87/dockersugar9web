@@ -1,6 +1,5 @@
 FROM php:7.1-apache
 
-
 RUN apt-get update \
     && apt-get install -y \
     graphviz \
@@ -74,16 +73,19 @@ RUN docker-php-ext-install mysqli \
 COPY config/php/mods-available/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 COPY config/php/opcache-blacklist /usr/local/etc/php/opcache-blacklist
 
-# ENV REPO_SUGAR https://github.com/stefanos87/empty
- 
+ARG REPO_USER 
+ARG REPO_PASSWORD
+ARG REPO_URL_SUGAR
 
-# RUN git clone ${REPO_SUGAR} /sugarsource
-# RUN mkdir /sugarsource/sessioni
+RUN git clone https://${REPO_USER}:${REPO_PASSWORD}@${REPO_URL_SUGAR}.git /sugarsource
+
+# RUN git clone https://gitlab.afbnet.it/sstirati/sugar9files /sugarsource
+RUN mkdir /sugarsource/sessioni
 RUN chmod -R 777 /var
-# RUN chown -R sugar:sugar /sugarsource
+RUN chown -R sugar:sugar /sugarsource
 
 
-# COPY config/apache2/info.php /sugarsource
+COPY config/apache2/info.php /sugarsource
 COPY config/apache2/copyfileinvolumes.sh /usr/local/bin/copyfileinvolumes.sh
 RUN chmod +x /usr/local/bin/copyfileinvolumes.sh
 # RUN chmod +x /usr/local/bin/sugarfixpermissions
@@ -104,7 +106,7 @@ EXPOSE 8080
 ENV APACHE_RUN_USER sugar
 ENV APACHE_RUN_GROUP sugar
 
-
+USER sugar
 WORKDIR "/var/www/html"
 
 
@@ -119,4 +121,3 @@ WORKDIR "/var/www/html"
 # ENTRYPOINT ["apachectl", "-D", "FOREGROUND"]
 # CMD ["&&", "copyfileinvolumes.sh" ]
 ENTRYPOINT ["copyfileinvolumes.sh"]
-USER sugar
