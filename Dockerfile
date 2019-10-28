@@ -74,12 +74,12 @@ RUN docker-php-ext-install mysqli \
 COPY config/php/mods-available/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 COPY config/php/opcache-blacklist /usr/local/etc/php/opcache-blacklist
 
-ENV REPO_SUGAR https://github.com/stefanos87/empty
+# ENV REPO_SUGAR https://github.com/stefanos87/empty
  
 
 # RUN git clone ${REPO_SUGAR} /sugarsource
 # RUN mkdir /sugarsource/sessioni
-# RUN chmod -R 777 /var
+RUN chmod -R 777 /var
 # RUN chown -R sugar:sugar /sugarsource
 
 
@@ -104,7 +104,7 @@ EXPOSE 8080
 ENV APACHE_RUN_USER sugar
 ENV APACHE_RUN_GROUP sugar
 
-USER sugar
+
 WORKDIR "/var/www/html"
 
 
@@ -119,3 +119,4 @@ WORKDIR "/var/www/html"
 # ENTRYPOINT ["apachectl", "-D", "FOREGROUND"]
 # CMD ["&&", "copyfileinvolumes.sh" ]
 ENTRYPOINT ["copyfileinvolumes.sh"]
+USER sugar

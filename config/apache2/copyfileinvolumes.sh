@@ -10,10 +10,18 @@ if [ -f "$FILE" ]; then
     
 else 
    echo "copia"
-   git clone ${REPO_SUGAR} /var/www/html
+    if [ -z "${REPO_USER}" ]
+    then
+    echo "repo user empty"
+        git clone https://${REPO_SUGAR} /var/www/html
+    else
+        echo "repo user not empty"
+        git clone https://${REPO_USER}:${REPO_PASSWORD}@${REPO_URL_SUGAR}.git /var/www/html
+    fi
+  
    mkdir /var/www/html/sessioni
-   chmod -R 777 /var
-   chown -R sugar:sugar /var/www/html
+    chmod -R 777 /var
+    chown -R sugar:sugar /var/www/html
 
 #    cd /sugarsource
 #    cp -pfr * /var/www/html
